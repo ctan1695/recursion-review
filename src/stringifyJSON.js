@@ -4,9 +4,11 @@
 // but you don't so you're going to write it from scratch:
 
 var stringifyJSON = function(obj) {
+  // your code goes here
   var result = [];
   var str = '';
   // base cases
+
   if (typeof obj === null || typeof obj === undefined) {
     return 'null';
   } if (typeof obj === 'boolean') {
