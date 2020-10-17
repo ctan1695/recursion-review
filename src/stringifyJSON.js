@@ -4,27 +4,45 @@
 // but you don't so you're going to write it from scratch:
 
 var stringifyJSON = function(obj) {
-  // your code goes here
   var result = [];
   var str = '';
-  // base case
-  // number, boolean, null
+  // base cases
   if (typeof obj === null || typeof obj === undefined) {
     return 'null';
+  } if (typeof obj === 'boolean') {
+    return obj + '';
   }
-  if (typeof obj === 'number' ) { //|| typeof obj === 'boolean' || typeof obj === 'null'){
+  if (typeof obj === 'number' || typeof obj === 'null') {
     return obj + '';
   } if (typeof obj === 'string') {
     return '"' + obj + '"';
-  } if (Array.isArray(obj)) { // recursive call
+  }
+  if (!obj) {
+    return 'null';
+  }
+  if (Array.isArray(obj)) { // recursive call
     for ( var i = 0; i < obj.length; i++) {
-      //var current=stringifyJSON(obj[i])
-      result.push(obj[i]);
-      console.log('result', result);
+      var current = stringifyJSON(obj[i]);
+      result.push(current);
     }
     str = '[' + result + ']';
-  }
+  } if (!Array.isArray(obj) && typeof obj === 'object') {
+    // access keys
+    for ( var keys in obj) {
+      if (obj[keys] === 'undefined' || typeof obj[keys] === 'function') {
+        return '{}';
+      }
+      str = '"' + keys + '":' + stringifyJSON(obj[keys]);
+      result.push(str);
+    }
+    if (result.length === 0) {
+      return '{}';
+    }
+    str = '{' + result + '}';
 
+  } if (!obj) {
+    return 'null';
+  }
   // recursion call
   return str;
 };
